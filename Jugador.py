@@ -1,6 +1,3 @@
-from Mazo import Mazo
-from Carta import Carta
-
 class Jugador:
     __mano = []
     __puntos = 0
@@ -23,19 +20,3 @@ class Jugador:
 
     def getMano(self):
         return self.__mano
-
-# =========================================
-
-# jugador1 = Jugador()
-
-# for carta in jugador1.getMano():
-#     print(carta.mostrarCarta())
-
-# print(jugador1.getPuntos())
-
-# jugador1.agarrarCarta()
-
-# for carta in jugador1.getMano():
-#     print(carta.mostrarCarta())
-
-# print(jugador1.getPuntos())
