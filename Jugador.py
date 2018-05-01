@@ -15,6 +15,10 @@ class Jugador:
         self.__mano.append(nuevaCarta)
         self.__puntos += nuevaCarta.getValor()
 
+    def imprimirCartas(self):
+        for carta in self.__mano:
+            print(str(carta.getValor()) + " de " + carta.getPinta())
+
     def getPuntos(self):
         return self.__puntos
 
