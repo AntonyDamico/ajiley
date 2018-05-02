@@ -1,7 +1,10 @@
 from Mazo import Mazo
+from Carta import Carta
+
 
 class Jugador:
     __mano = []
+
     __puntos = {
         "Palos": 0,
         "Espadas": 0,
@@ -15,24 +18,27 @@ class Jugador:
         7: 7
     }
 
+    __comodin = Carta(7, "Oro")
+
     def __init__(self, mazo):
-        for _ in range(0, 3):
+        for _ in range(0, 2):
             self.agarrarCarta(mazo)
 
     def __agregarPuntos(self, carta):
         puntos = self.__calcularPuntosCarta(carta)
-
-        if carta.getPinta() == "Oro" and carta.getValor == 7:
-            print(0)
-
+        if carta == self.__comodin:
+            self.__sumarComodin()
+            return
         self.__puntos[carta.getPinta()] += puntos
-        
 
     def __calcularPuntosCarta(self, carta):
-        valor = carta.getValor()
-        if valor in self.__valoresCartas:
-            return self.__valoresCartas[valor]
+        if carta.getValor() in self.__valoresCartas:
+            return self.__valoresCartas[carta.getValor()]
         return 10
+
+    def __sumarComodin(self):
+        for pinta in self.__puntos:
+            self.__puntos[pinta] += 10
 
     def agarrarCarta(self, mazo):
         nuevaCarta = mazo.agarrarCarta()
