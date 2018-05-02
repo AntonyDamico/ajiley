@@ -6,6 +6,10 @@ class Carta:
         self.__valor = valor
         self.__pinta = pinta
 
+    # hace que la comparacion de los campos de dos objetos funcione
+    def __eq__(self, otra):
+        return self.__valor == otra.getValor() and self.__pinta == otra.getPinta()
+
     def mostrarCarta(self):
         return str(self.__valor) + " de " + self.__pinta
 
