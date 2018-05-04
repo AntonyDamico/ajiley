@@ -12,11 +12,14 @@ class Operador:
     __comodin = Carta(7, "Oro")
 
     @classmethod
-    def calcularPuntosMano(cls, carta, operacion):
+    def calcularPuntosMano(cls, carta, operacion, puntosJugador):
         puntos = cls.__calcularPuntosCarta(carta)
-        # if carta == cls.__comodin:
-            # return cls.__realizarOperacionComodin(operacion)
-        return cls.__realizarOperacionPuntos(operacion, puntos)
+        if carta == cls.__comodin:
+            for pinta in puntosJugador:
+                puntosJugador[pinta] += cls.__realizarOperacionComodin(operacion)
+            return puntosJugador
+        puntosJugador[carta.getPinta()] += cls.__realizarOperacionPuntos(operacion, puntos)
+        return puntosJugador
 
     @classmethod
     def __calcularPuntosCarta(cls, carta):
@@ -30,10 +33,9 @@ class Operador:
             return puntos
         return -puntos
 
-    # @classmethod
-    # def __realizarOperacionComodin(cls, operacion):
-    #     for pinta in self.__puntos:
-    #         if(operacion):
-    #             self.__puntos[pinta] += 10
-    #         else:
-    #             self.__puntos[pinta] -= 10
+    @classmethod
+    def __realizarOperacionComodin(cls, operacion):
+        if(operacion):
+            return 10
+        else:
+            return -10
