@@ -1,5 +1,6 @@
 from Mazo import Mazo
 from Carta import Carta
+from Operador import Operador
 
 
 class Jugador:
@@ -27,38 +28,39 @@ class Jugador:
     def agarrarCarta(self, mazo):
         nuevaCarta = mazo.agarrarCarta()
         self.__mano.append(nuevaCarta)
-        self.__calcularPuntosMano(nuevaCarta, True)
+        # self.__calcularPuntosMano(nuevaCarta, True)
+        self.__puntos[nuevaCarta.getPinta()] += Operador.calcularPuntosMano(nuevaCarta, True)
 
     # la operacion es True para suma y False para resta
-    def __calcularPuntosMano(self, carta, operacion):
-        puntos = self.__calcularPuntosCarta(carta)
-        if carta == self.__comodin:
-            self.__realizarOperacionComodin(operacion)
-            return
-        self.__realizarOperacion(carta, operacion, puntos)
+    # def __calcularPuntosMano(self, carta, operacion):
+    #     puntos = self.__calcularPuntosCarta(carta)
+    #     if carta == self.__comodin:
+    #         self.__realizarOperacionComodin(operacion)
+    #         return
+    #     self.__realizarOperacion(carta, operacion, puntos)
 
-    def __realizarOperacion(self, carta, operacion, puntos):
-        if(operacion):
-            self.__puntos[carta.getPinta()] += puntos
-            return
-        self.__puntos[carta.getPinta()] -= puntos
+    # def __realizarOperacion(self, carta, operacion, puntos):
+    #     if(operacion):
+    #         self.__puntos[carta.getPinta()] += puntos
+    #         return
+    #     self.__puntos[carta.getPinta()] -= puntos
 
-    def __realizarOperacionComodin(self, operacion):
-        for pinta in self.__puntos:
-            if(operacion):
-                self.__puntos[pinta] += 10
-            else:
-                self.__puntos[pinta] -= 10
+    # def __realizarOperacionComodin(self, operacion):
+    #     for pinta in self.__puntos:
+    #         if(operacion):
+    #             self.__puntos[pinta] += 10
+    #         else:
+    #             self.__puntos[pinta] -= 10
 
-    def __calcularPuntosCarta(self, carta):
-        if carta.getValor() in self.__valoresCartas:
-            return self.__valoresCartas[carta.getValor()]
-        return 10
+    # def __calcularPuntosCarta(self, carta):
+    #     if carta.getValor() in self.__valoresCartas:
+    #         return self.__valoresCartas[carta.getValor()]
+    #     return 10
 
     def cambiarCartas(self, cambioCartas, mazo):
         self.__mano = [x for x in self.__mano if x not in cambioCartas]
         for viejaCarta in cambioCartas:
-            self.__calcularPuntosMano(viejaCarta, False)
+            self.__puntos[viejaCarta.getPinta()] += Operador.calcularPuntosMano(viejaCarta, False)
             self.agarrarCarta(mazo)
 
     def imprimirCartas(self):
@@ -78,7 +80,7 @@ jugador1 = Jugador(mazo)
 print(jugador1.getPuntos())
 jugador1.imprimirCartas()
 
-remover = [jugador1.getMano()[2]]
+remover = [jugador1.getMano()[0]]
 jugador1.cambiarCartas(remover, mazo)
 
 print(jugador1.getPuntos())
