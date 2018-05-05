@@ -1,6 +1,6 @@
 from Mazo import Mazo
 from Carta import Carta
-from Operador import Operador
+from Operador import calcularPuntosMano
 
 
 class Jugador:
@@ -20,17 +20,17 @@ class Jugador:
     def agarrarCarta(self, mazo):
         nuevaCarta = mazo.agarrarCarta()
         self.__mano.append(nuevaCarta)
-        self.__puntos = Operador.calcularPuntosMano(nuevaCarta, True, self.__puntos)
+        self.__puntos = calcularPuntosMano(nuevaCarta, True, self.__puntos)
 
     def cambiarCartas(self, cambioCartas, mazo):
         self.__mano = [x for x in self.__mano if x not in cambioCartas]
         for viejaCarta in cambioCartas:
-            self.__puntos = Operador.calcularPuntosMano(viejaCarta, False, self.__puntos)
+            self.__puntos = calcularPuntosMano(viejaCarta, False, self.__puntos)
             self.agarrarCarta(mazo)
 
-    def imprimirCartas(self):
-        for carta in self.__mano:
-            print(str(carta.getValor()) + " de " + carta.getPinta())
+    # def imprimirCartas(self):
+    #     for carta in self.__mano:
+    #         print(str(carta.getValor()) + " de " + carta.getPinta())
 
     def getPuntos(self):
         return self.__puntos
@@ -39,14 +39,14 @@ class Jugador:
         return self.__mano
 
 
-mazo = Mazo()
-jugador1 = Jugador(mazo)
+# mazo = Mazo()
+# jugador1 = Jugador(mazo)
 
-print(jugador1.getPuntos())
-jugador1.imprimirCartas()
+# print(jugador1.getPuntos())
+# jugador1.imprimirCartas()
 
-remover = [jugador1.getMano()[0]]
-jugador1.cambiarCartas(remover, mazo)
+# remover = [jugador1.getMano()[0]]
+# jugador1.cambiarCartas(remover, mazo)
 
-print(jugador1.getPuntos())
-jugador1.imprimirCartas()
+# print(jugador1.getPuntos())
+# jugador1.imprimirCartas()
