@@ -15,8 +15,8 @@ def calcularPuntosMano(carta, operacion, puntosJugador):
         for pinta in puntosJugador:
             puntosJugador[pinta] += realizarOperacionComodin(operacion)
         return puntosJugador
-    puntosJugador[carta.getPinta(
-    )] += realizarOperacionPuntos(operacion, puntos)
+    puntosJugador[
+        carta.getPinta()] += realizarOperacionPuntos(operacion, puntos)
     return puntosJugador
 
 
