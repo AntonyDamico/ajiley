@@ -2,17 +2,12 @@ from Jugador import Jugador
 from Mazo import Mazo
 
 mazo = Mazo()
-
 jugador1 = Jugador(mazo)
 
-for carta in jugador1.getMano():
-    print(carta.mostrarCarta())
-
 print(jugador1.getPuntos())
 
-jugador1.agarrarCarta(mazo)
-
-for carta in jugador1.getMano():
-    print(carta.mostrarCarta())
+remover = [jugador1.getMano()[0]]
+jugador1.cambiarCartas(remover, mazo)
 
 print(jugador1.getPuntos())
+print(jugador1.getMaxPuntos())

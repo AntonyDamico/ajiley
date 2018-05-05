@@ -23,7 +23,8 @@ class Jugador:
         self.__puntos = calcularPuntosMano(
             nuevaCarta,
             True,
-            self.__puntos)
+            self.__puntos
+        )
 
     def cambiarCartas(self, cambioCartas, mazo):
         self.__mano = [x for x in self.__mano if x not in cambioCartas]
@@ -31,8 +32,16 @@ class Jugador:
             self.__puntos = calcularPuntosMano(
                 viejaCarta,
                 False,
-                self.__puntos)
+                self.__puntos
+            )
             self.agarrarCarta(mazo)
+
+    def getMaxPuntos(self):
+        max = 0
+        for pinta in self.__puntos:
+            if(self.__puntos[pinta] > max):
+                max = self.__puntos[pinta]
+        return max
 
     # def imprimirCartas(self):
     #     for carta in self.__mano:
@@ -43,16 +52,3 @@ class Jugador:
 
     def getMano(self):
         return self.__mano
-
-
-mazo = Mazo()
-jugador1 = Jugador(mazo)
-
-print(jugador1.getPuntos())
-# jugador1.imprimirCartas()
-
-# remover = [jugador1.getMano()[0]]
-# jugador1.cambiarCartas(remover, mazo)
-
-# print(jugador1.getPuntos())
-# jugador1.imprimirCartas()
