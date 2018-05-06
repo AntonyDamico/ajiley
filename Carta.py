@@ -1,10 +1,12 @@
 class Carta:
     __valor = None
     __pinta = None
+    __img = None
 
     def __init__(self, valor, pinta):
         self.__valor = valor
         self.__pinta = pinta
+        self.__img = "/imagenes/cartas/" + pinta + "/" + str(valor) + ".jpg"
 
     # hace que la comparacion de los campos de dos objetos funcione
     def __eq__(self, otra):
@@ -18,3 +20,6 @@ class Carta:
 
     def getPinta(self):
         return self.__pinta
+
+    def getImg(self):
+        return self.__img

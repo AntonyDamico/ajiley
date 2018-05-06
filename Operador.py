@@ -6,7 +6,7 @@ valoresCartas = {
     7: 7
 }
 
-comodin = Carta(7, "Oro")
+comodin = Carta(7, "oro")
 
 
 def calcularPuntosMano(carta, operacion, puntosJugador):

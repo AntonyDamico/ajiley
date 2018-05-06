@@ -7,10 +7,10 @@ class Jugador:
     __mano = []
 
     __puntos = {
-        "Palos": 0,
-        "Espadas": 0,
-        "Oro": 0,
-        "Copa": 0
+        "palos": 0,
+        "espadas": 0,
+        "oro": 0,
+        "copa": 0
     }
 
     def __init__(self, mazo):

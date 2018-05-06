@@ -4,7 +4,7 @@ from Carta import *
 
 class Mazo:
     __valores = (1, 2, 3, 4, 5, 6, 7, 10, 11, 12)
-    __pintas = ("Palos", "Espadas", "Oro", "Copa")
+    __pintas = ("palos", "espadas", "oro", "copa")
     __cartas = []
 
     def __init__(self):
