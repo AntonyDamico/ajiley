@@ -14,7 +14,7 @@ class Jugador:
     }
 
     def __init__(self, mazo):
-        for _ in range(0, 2):
+        for _ in range(0, 5):
             self.agarrarCarta(mazo)
 
     def agarrarCarta(self, mazo):

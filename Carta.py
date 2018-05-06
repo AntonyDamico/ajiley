@@ -6,7 +6,7 @@ class Carta:
     def __init__(self, valor, pinta):
         self.__valor = valor
         self.__pinta = pinta
-        self.__img = "/imagenes/cartas/" + pinta + "/" + str(valor) + ".jpg"
+        self.__img = "imagenes/cartas/" + pinta + "/" + str(valor) + ".jpg"
 
     # hace que la comparacion de los campos de dos objetos funcione
     def __eq__(self, otra):
