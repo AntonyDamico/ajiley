@@ -35,6 +35,14 @@ def card(x, y, img):
     img = pygame.image.load(img)
     gameDisplay.blit(img, (x, y))
 
+def mostrarPuntos(puntos):
+    font = pygame.font.SysFont(None, 25)
+    i = 0
+    for pinta in puntos:
+        texto = font.render(pinta + ": " + str(puntos[pinta]), True, blanco)
+        gameDisplay.blit(texto, (anchoPantalla*0.65, (altoPantalla *0.75) + i))
+        i += 20
+
 def gameLoop():
 
     x = (anchoPantalla*0.1)
@@ -53,7 +61,9 @@ def gameLoop():
 
         for i in range(0, len(cartasImagenes)):
             card(x * (i + 1), y, cartasImagenes[i])
-
+            
+        mostrarPuntos(jugador1.getPuntos())
+        
         pygame.display.update()
         clock.tick(30)
 
