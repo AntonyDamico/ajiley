@@ -5,9 +5,10 @@ from Carta import *
 class Mazo:
     __valores = (1, 2, 3, 4, 5, 6, 7, 10, 11, 12)
     __pintas = ("palos", "espadas", "oro", "copa")
-    __cartas = []
+    
 
     def __init__(self):
+        self.__cartas = []
         self.__armarMazo()
 
     # llena el array __cartas de todas las cartas

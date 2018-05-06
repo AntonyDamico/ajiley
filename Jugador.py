@@ -4,16 +4,17 @@ from Operador import calcularPuntosMano
 
 
 class Jugador:
-    __mano = []
-
-    __puntos = {
-        "palos": 0,
-        "espadas": 0,
-        "oro": 0,
-        "copa": 0
-    }
 
     def __init__(self, mazo):
+        self.__mano = []
+
+        self.__puntos = {
+            "palos": 0,
+            "espadas": 0,
+            "oro": 0,
+            "copa": 0
+        }
+
         for _ in range(0, 5):
             self.agarrarCarta(mazo)
 

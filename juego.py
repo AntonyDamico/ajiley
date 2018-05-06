@@ -3,7 +3,10 @@ from Mazo import Mazo
 from Jugador import Jugador
 
 mazo = Mazo()
-jugador1 = Jugador(mazo)
+jugadores = []
+
+for i in range(0, 4):
+    jugadores.append(Jugador(mazo))
 
 pygame.init()
 
@@ -24,9 +27,8 @@ pygame.display.set_caption('Ajilei')
 clock = pygame.time.Clock()
 
 cartasImagenes = []
-for carta in jugador1.getMano():
+for carta in jugadores[0].getMano():
     cartasImagenes.append(carta.getImg())
-
 
 
 # cardImg = pygame.image.load("imagenes/cartas/copa/1.jpg")
@@ -48,22 +50,25 @@ def gameLoop():
     x = (anchoPantalla*0.1)
     y = (altoPantalla*0.7)
 
-    gameExit = False
+    # gameExit = False
 
-    while not gameExit:
-
+    while True:
+        # Cerrando el juego
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 quit()
 
+        # Dibujando
+        # fondo
         gameDisplay.fill(verde)
 
         for i in range(0, len(cartasImagenes)):
             card(x * (i + 1), y, cartasImagenes[i])
             
-        mostrarPuntos(jugador1.getPuntos())
+        mostrarPuntos(jugadores[0].getPuntos())
         
+        # refrescando
         pygame.display.update()
         clock.tick(30)
 

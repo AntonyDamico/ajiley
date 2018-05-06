@@ -1,7 +1,4 @@
 class Carta:
-    __valor = None
-    __pinta = None
-    __img = None
 
     def __init__(self, valor, pinta):
         self.__valor = valor
