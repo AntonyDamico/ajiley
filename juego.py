@@ -48,6 +48,24 @@ def text_objects(text, font):
     textSurface = font.render(text, True, negro)
     return textSurface, textSurface.get_rect()
 
+def cambiarCartas(msg, x, y, w, h, ic, ac):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+        if click[0] == 1 and cartasSeleccionadas:
+            jugadores[0].cambiarCartas(cartasSeleccionadas, mazo)
+            cartasSeleccionadas.clear()
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+
+    smallText = pygame.font.Font('freesansbold.ttf', 20)
+    TextSurf, TextRect = text_objects(msg, smallText)
+    TextRect.center = ((x+(w/2)), (y+(h/2)))
+    gameDisplay.blit(TextSurf, TextRect)
+
+
 
 def botonCarta(msg, x, y, w, h, carta):
     mouse = pygame.mouse.get_pos()
@@ -88,18 +106,18 @@ def gameLoop():
         # fondo
         gameDisplay.fill(verde)
 
-        for i in range(0, len(cartasImagenes)):
-            imprimitCarta(x * (i + 1), y, cartasImagenes[i])
+        i = 0
+        for carta in jugadores[0].getMano():
+            imprimitCarta(x * (i + 1), y, carta.getImg())
             if(i < len(cartasImagenes) - 1):
-                botonCarta("", x * (i + 1), y, 100 - (20), 139, jugadores[0].getMano()[i])
+                botonCarta("", x * (i + 1), y, 100 - (20), 139, carta)
             else:
-                botonCarta("", x * (i + 1), y, 100, 139, jugadores[0].getMano()[i])
+                botonCarta("", x * (i + 1), y, 100, 139, carta)
+            i += 1
 
-        for i in range(0, len(cartasSeleccionadas)):
-            print(cartasSeleccionadas[i].mostrarCarta())
-         
-            
         mostrarPuntos(jugadores[0].getPuntos())
+
+        cambiarCartas("cambio", anchoPantalla * 0.80, altoPantalla * 0.90, 90, 30, blanco, negro)
         
         # refrescando
         pygame.display.update()

@@ -12,14 +12,15 @@ for i in range(0, 4):
 # jugador1 = Jugador(mazo)
 
 print(jugadores[0].getPuntos())
-jugadores[0].imprimirCartas()
+# jugadores[0].imprimirCartas()
 
 print(jugadores[1].getPuntos())
-jugadores[1].imprimirCartas()
-# remover = [jugador1.getMano()[0]]
-# jugador1.cambiarCartas(remover, mazo)
+jugadores[0].imprimirCartas()
+remover = [jugadores[0].getMano()[0], jugadores[0].getMano()[1]]
+jugadores[0].cambiarCartas(remover, mazo)
 
-# print(jugador1.getPuntos())
+print(jugadores[0].getPuntos())
+jugadores[0].imprimirCartas()
 # print(jugador1.getMaxPuntos())
 
 # print(jugador1.getMano()[0].getImg())

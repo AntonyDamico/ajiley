@@ -44,9 +44,9 @@ class Jugador:
                 max = self.__puntos[pinta]
         return max
 
-    # def imprimirCartas(self):
-    #     for carta in self.__mano:
-    #         print(str(carta.getValor()) + " de " + carta.getPinta())
+    def imprimirCartas(self):
+        for carta in self.__mano:
+            print(str(carta.getValor()) + " de " + carta.getPinta())
 
     def getPuntos(self):
         return self.__puntos
