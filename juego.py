@@ -34,6 +34,22 @@ cartasImagenes = []
 for carta in jugadores[0].getMano():
     cartasImagenes.append(carta.getImg())
 
+def boton(msg, x, y, w, h, ic, ac, action = None):
+    mouse = pygame.mouse.get_pos()
+    click = pygame.mouse.get_pressed()
+
+    if x+w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
+        if click[0] == 1 and action != None:
+            action()
+    else:
+        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
+
+    smallText = pygame.font.Font('freesansbold.ttf', 20)
+    TextSurf, TextRect = text_objects(msg, smallText)
+    TextRect.center = ((x+(w/2)), (y+(h/2)))
+    gameDisplay.blit(TextSurf, TextRect)
+
 
 def imprimitCarta(x, y, img):
     img = pygame.image.load(img)
@@ -57,35 +73,23 @@ def text_objects(text, font):
     return textSurface, textSurface.get_rect()
 
 
-def pasarTurno(msg, x, y, w, h, ic, ac):
+def pasarTurno():
     global actual
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-
-    if x+w > mouse[0] > x and y + h > mouse[1] > y:
-        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-        if click[0] == 1:
-            if actual < 3:
-                actual += 1
-            else:
-                actual = 0
+    if actual < 3:
+        actual += 1
     else:
-        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
-
-    smallText = pygame.font.Font('freesansbold.ttf', 20)
-    TextSurf, TextRect = text_objects(msg, smallText)
-    TextRect.center = ((x+(w/2)), (y+(h/2)))
-    gameDisplay.blit(TextSurf, TextRect)
+        actual = 0
+    cartasSeleccionadas.clear()
 
 
-def cambiarCartas(msg, x, y, w, h, ic, ac, actual):
+def cambiarCartas(msg, x, y, w, h, ic, ac, jug):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
         if click[0] == 1 and cartasSeleccionadas:
-            jugadores[actual].cambiarCartas(cartasSeleccionadas, mazo)
+            jugadores[jug].cambiarCartas(cartasSeleccionadas, mazo)
             cartasSeleccionadas.clear()
     else:
         pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
@@ -155,8 +159,8 @@ def gameLoop():
         cambiarCartas("Cambio", anchoPantalla * 0.80,
                       altoPantalla * 0.75, 120, 30, blanco, gris, actual)
 
-        pasarTurno("Pasar Turno", anchoPantalla * 0.80,
-                   altoPantalla * 0.85, 120, 30, blanco, gris)
+        boton("Pasar Turno", anchoPantalla * 0.80,
+                   altoPantalla * 0.85, 120, 30, blanco, gris, pasarTurno)
 
         # refrescando
         pygame.display.update()
