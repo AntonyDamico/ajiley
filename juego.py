@@ -25,7 +25,6 @@ azul = (0, 0, 255)
 anchoCarta = 100
 altoCarta = 139
 
-
 gameDisplay = pygame.display.set_mode((anchoPantalla, altoPantalla))
 pygame.display.set_caption('Ajilei')
 clock = pygame.time.Clock()
@@ -34,14 +33,18 @@ cartasImagenes = []
 for carta in jugadores[0].getMano():
     cartasImagenes.append(carta.getImg())
 
-def boton(msg, x, y, w, h, ic, ac, action = None):
+
+def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[]):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
 
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
         if click[0] == 1 and action != None:
-            action()
+            if parameters:
+                action(parameters[0])
+            else:
+                action()
     else:
         pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
 
@@ -51,20 +54,21 @@ def boton(msg, x, y, w, h, ic, ac, action = None):
     gameDisplay.blit(TextSurf, TextRect)
 
 
+def imprimirTexto(texto, x, y):
+    font = pygame.font.SysFont(None, 25)
+    texto = font.render(texto, True, blanco)
+    gameDisplay.blit(texto, (x, y))
+
+
 def imprimitCarta(x, y, img):
     img = pygame.image.load(img)
     gameDisplay.blit(img, (x, y))
 
 
 def mostrarPuntos(puntos):
-    font = pygame.font.SysFont(None, 25)
     i = 0
     for pinta in puntos:
-        texto = font.render(pinta + ": " + str(puntos[pinta]), True, blanco)
-        gameDisplay.blit(
-            texto,
-            (anchoPantalla*0.65,
-             (altoPantalla * 0.75) + i))
+        imprimirTexto(pinta + ": " + str(puntos[pinta]), anchoPantalla*0.65, (altoPantalla * 0.75) + i)
         i += 20
 
 
@@ -82,29 +86,17 @@ def pasarTurno():
     cartasSeleccionadas.clear()
 
 
-def cambiarCartas(msg, x, y, w, h, ic, ac, jug):
-    mouse = pygame.mouse.get_pos()
-    click = pygame.mouse.get_pressed()
-
-    if x+w > mouse[0] > x and y + h > mouse[1] > y:
-        pygame.draw.rect(gameDisplay, ac, (x, y, w, h))
-        if click[0] == 1 and cartasSeleccionadas:
-            jugadores[jug].cambiarCartas(cartasSeleccionadas, mazo)
-            cartasSeleccionadas.clear()
-    else:
-        pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
-
-    smallText = pygame.font.Font('freesansbold.ttf', 20)
-    TextSurf, TextRect = text_objects(msg, smallText)
-    TextRect.center = ((x+(w/2)), (y+(h/2)))
-    gameDisplay.blit(TextSurf, TextRect)
+def cambiarCartas(jug):
+    if cartasImagenes:
+        jugadores[jug].cambiarCartas(cartasSeleccionadas, mazo)
+        cartasSeleccionadas.clear()
 
 
-def botonCarta(msg, x, y, w, h, carta):
+def botonCarta(x, y, w, h, carta):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     s = pygame.Surface((w, h))
-    s.fill((255, 255, 255))
+    s.fill(blanco)
 
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         s.set_alpha(80)
@@ -129,24 +121,26 @@ def imprimirCartas(jugadorCont):
 
         imprimitCarta(x * (i + 1), y, carta.getImg())
         if(i < len(cartasImagenes) - 1):
-            botonCarta("", x * (i + 1), y, anchoCarta -
+            botonCarta(x * (i + 1), y, anchoCarta -
                        anchoCarta * 0.2, 139, carta)
         else:
-            botonCarta("", x * (i + 1), y, 100, 139, carta)
+            botonCarta(x * (i + 1), y, 100, 139, carta)
         i += 1
         y = (altoPantalla*0.7)
 
 
+def salirJuego():
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+
+
 def gameLoop():
 
-    # gameExit = False
-
     while True:
-        # Cerrando el juego
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
+
+        salirJuego()
 
         # Dibujando
         # fondo
@@ -156,11 +150,11 @@ def gameLoop():
 
         mostrarPuntos(jugadores[actual].getPuntos())
 
-        cambiarCartas("Cambio", anchoPantalla * 0.80,
-                      altoPantalla * 0.75, 120, 30, blanco, gris, actual)
+        boton("Cambiar Carta", anchoPantalla * 0.80, altoPantalla *
+              0.75, 150, 30, blanco, gris, cambiarCartas, [actual])
 
         boton("Pasar Turno", anchoPantalla * 0.80,
-                   altoPantalla * 0.85, 120, 30, blanco, gris, pasarTurno)
+              altoPantalla * 0.85, 120, 30, blanco, gris, pasarTurno)
 
         # refrescando
         pygame.display.update()
