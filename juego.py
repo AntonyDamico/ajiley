@@ -24,6 +24,8 @@ azul = (0, 0, 255)
 
 anchoCarta = 100
 altoCarta = 139
+cartaAtras = "imagenes/cartas/atras/vertical.jpg"
+fondo = "imagenes/fondo.jpg"
 
 gameDisplay = pygame.display.set_mode((anchoPantalla, altoPantalla))
 pygame.display.set_caption('Ajilei')
@@ -53,6 +55,13 @@ def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[]):
     TextRect.center = ((x+(w/2)), (y+(h/2)))
     gameDisplay.blit(TextSurf, TextRect)
 
+def fondoPantalla(imagen):
+    imagen = pygame.image.load(imagen)
+    rect = imagen.get_rect()
+    rect.left, rect.top = [0,0]
+    gameDisplay.fill([255, 255, 255])
+    gameDisplay.blit(imagen, rect)
+
 
 def imprimirTexto(texto, x, y):
     font = pygame.font.SysFont(None, 25)
@@ -60,7 +69,7 @@ def imprimirTexto(texto, x, y):
     gameDisplay.blit(texto, (x, y))
 
 
-def imprimitCarta(x, y, img):
+def imprimirImagen(x, y, img):
     img = pygame.image.load(img)
     gameDisplay.blit(img, (x, y))
 
@@ -68,7 +77,8 @@ def imprimitCarta(x, y, img):
 def mostrarPuntos(puntos):
     i = 0
     for pinta in puntos:
-        imprimirTexto(pinta + ": " + str(puntos[pinta]), anchoPantalla*0.65, (altoPantalla * 0.75) + i)
+        imprimirTexto(
+            pinta + ": " + str(puntos[pinta]), anchoPantalla*0.65, (altoPantalla * 0.75) + i)
         i += 20
 
 
@@ -119,7 +129,7 @@ def imprimirCartas(jugadorCont):
         if carta in cartasSeleccionadas:
             y = y - 20
 
-        imprimitCarta(x * (i + 1), y, carta.getImg())
+        imprimirImagen(x * (i + 1), y, carta.getImg())
         if(i < len(cartasImagenes) - 1):
             botonCarta(x * (i + 1), y, anchoCarta -
                        anchoCarta * 0.2, 139, carta)
@@ -146,19 +156,25 @@ def gameLoop():
         # fondo
         gameDisplay.fill(verde)
 
+        imprimirImagen(anchoPantalla*0.95 - anchoCarta, altoPantalla * 0.3, cartaAtras)
+        imprimirImagen(anchoPantalla*0.05, altoPantalla * 0.3, cartaAtras)
+        imprimirImagen(anchoPantalla*0.5 - anchoCarta/2, altoPantalla*0.01, cartaAtras)
+
         imprimirCartas(actual)
 
         mostrarPuntos(jugadores[actual].getPuntos())
 
-        boton("Cambiar Carta", anchoPantalla * 0.80, altoPantalla *
-              0.75, 150, 30, blanco, gris, cambiarCartas, [actual])
+        boton("Cambiar Carta", anchoPantalla * 0.80,
+              altoPantalla * 0.75, 150, 30, blanco,
+              gris, cambiarCartas, [actual])
 
         boton("Pasar Turno", anchoPantalla * 0.80,
-              altoPantalla * 0.85, 120, 30, blanco, gris, pasarTurno)
+              altoPantalla * 0.85, 150, 30, blanco, 
+              gris, pasarTurno)
 
         # refrescando
         pygame.display.update()
-        clock.tick(10)
+        clock.tick(15)
 
 
 gameLoop()
