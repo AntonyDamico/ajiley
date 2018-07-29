@@ -3,38 +3,58 @@ from Carta import *
 
 
 class Mazo:
+    # attr privado: Valores posibles en una baraja francesa
     __valores = (1, 2, 3, 4, 5, 6, 7, 10, 11, 12)
+    # attr privado: Pintas posibles en una baraja francesa
     __pintas = ("palos", "espadas", "oro", "copa")
-    
 
     def __init__(self):
+        """
+        Constructor de la clase Mazo que va a ser un array
+        lleno de objetos de la clase Carta
+        """
         self.__cartas = []
         self.__armarMazo()
 
-    # llena el array __cartas de todas las cartas
     def __armarMazo(self):
+        """
+        Metodo privado que llena el array _cartas de la clase de objetos de la
+        clase Carta usando todas las combinaciones de pintas
+        y valores posibles
+        """
         for pinta in self.__pintas:
             for valor in self.__valores:
                 self.__cartas.append(Carta(valor, pinta))
 
     # agarrar una carta al azar del mazo
     def agarrarCarta(self):
-        # si __cartas está vacío, se llena otra vez
+        """
+        Devuelve una carta del array y la quita, si está
+        vacío, lo llena de nuevo
+
+        Returns
+        -------
+        obj Carta
+            Objeto de la clase Carta perteneciente al array _cartas
+        """
+        # Comprobando si _cartas está vacío
         if not self.__cartas:
             self.__armarMazo()
-        # número al azar entre 0 y 39 cartas
+        # número al azar entre 0 y 39 para el index del array
         return self.__cartas.pop(
             random.randint(0, len(self.__cartas)-1)
         )
 
-    # devuelve el array de carts
     def getCartas(self):
+        """ Devuelve el array _cartas completo """
         return self.__cartas
 
-    # devuelve una solo carta al dar un índice
     def getCarta(self, i):
+        """ Devuelve un objeto Carta del array dado un indice """
         return self.__cartas[i]
 
+
+# PRUEBAS DE CONSOLA
 
 # mazo1 = Mazo()
 
