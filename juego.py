@@ -1,3 +1,5 @@
+# pylint: disable=E1101
+# pylint: disable=E1121
 """
 Archivo principal del juego, este es el que se debe correr en consola
 
