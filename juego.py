@@ -11,7 +11,6 @@ python juego.py
 import pygame
 from Mazo import Mazo
 from Jugador import Jugador
-import os
 
 """
 Variables Globales
@@ -48,7 +47,7 @@ negro = (0, 0, 0)
 blanco = (255, 255, 255)
 gris = (200, 200, 200)
 rojo = (255, 0, 0)
-verde = (0, 100, 0)
+verde = (40, 150, 40)
 azul = (0, 0, 255)
 
 # Dimensiones de las imágenes de las cartas
@@ -323,9 +322,12 @@ def pantallaIntro():
     while intro:
         salirJuego()
 
+        # Fondo verde
         gameDisplay.fill(verde)
+        # Titulo
         imprimirTexto("Ajilei", (anchoPantalla / 2) - 200, (altoPantalla/2) - 200, 200)
-        boton(
+        # Botón para empezar
+        boton (
             "Empezar", 
             (anchoPantalla / 2) - 150,
             (altoPantalla / 2) + 20, 
@@ -336,11 +338,12 @@ def pantallaIntro():
             40
         )
 
+        # Autores
         imprimirTexto("Autores:", anchoPantalla - 200, altoPantalla - 170, 30)
         imprimirTexto("Antony D'Amico", anchoPantalla - 200, altoPantalla - 140, 30)
-        imprimirTexto("Mariano ", anchoPantalla - 200, altoPantalla - 110, 30)
-
+        imprimirTexto("Mariano Landaeta", anchoPantalla - 200, altoPantalla - 110, 30)
         
+        # refrescando el juego
         pygame.display.update()
         clock.tick(15)
 
@@ -350,13 +353,16 @@ def introFalse():
     intro = False
 
 
+    
+
+
 """
 =============================
 | Ciclo principal del juego  |
 =============================
 """
 def gameLoop():
-    os.environ['SDL_VIDEO_CENTERED'] = '2'
+    # os.environ['SDL_VIDEO_CENTERED'] = ''
 
     while True:
 
