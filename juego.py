@@ -183,13 +183,14 @@ def pasarTurno():
     y así cambiar el jugador
     """
     global turnoActual
+    global cartasSeleccionadas
     # Si el valor es 3, lo devuelve al principio
     if turnoActual < 3:
         turnoActual += 1
-    else:
-        turnoActual = 0
+    # else:
+    #     turnoActual = 0
     # Vacía el array del jugador actual
-    cartasSeleccionadas.clear()
+    cartasSeleccionadas = []
 
 def cambiarCartas(jug):
     """
@@ -200,11 +201,12 @@ def cambiarCartas(jug):
     ----------
     arg1 obj Jugador jug: Jugador del turno actual
     """
+    global cartasSeleccionadas
     if cartasImagenes:
         jugadores[jug].cambiarCartas(cartasSeleccionadas, mazo)
         # Borra las imágenes actuales para que se impriman las nuevas
         # en el siguiente ciclo
-        cartasSeleccionadas.clear()
+        cartasSeleccionadas = []
 
 
 def botonCarta(x, y, w, h, carta):
