@@ -11,6 +11,7 @@ python juego.py
 import pygame
 from Mazo import Mazo
 from Jugador import Jugador
+import os
 
 """
 Variables Globales
@@ -22,6 +23,9 @@ mazo = Mazo()
 jugadores = []
 # Array que se usa para almacenar las cartas que un jugador desea cambiar
 cartasSeleccionadas = []
+
+
+intro = True
 
 # El array se llena de 4 jugadores
 for i in range(0, 4):
@@ -67,7 +71,7 @@ for carta in jugadores[0].getMano():
     cartasImagenes.append(carta.getImg())
 
 
-def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[]):
+def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
     """
     Función para crear un botón
     Parámetros
@@ -101,8 +105,8 @@ def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[]):
         pygame.draw.rect(gameDisplay, ic, (x, y, w, h))
 
     # Fuente y tamano del texto del botón
-    smallText = pygame.font.Font('freesansbold.ttf', 20)
-    TextSurf, TextRect = text_objects(msg, smallText)
+    textButton = pygame.font.Font('freesansbold.ttf', fuenteTam)
+    TextSurf, TextRect = text_objects(msg, textButton)
     # Posicionando el botón
     TextRect.center = ((x+(w/2)), (y+(h/2)))
     # Poniendo el botón en pantalla
@@ -123,7 +127,7 @@ def fondoPantalla(imagen):
     gameDisplay.blit(imagen, rect)
 
 
-def imprimirTexto(texto, x, y):
+def imprimirTexto(texto, x, y, tam = 25):
     """
     Imprime un texto en la pantalla dada una posición
 
@@ -133,7 +137,12 @@ def imprimirTexto(texto, x, y):
     arg2 int x: posición x del texto
     arg2 int y: posición y del texo
     """
-    font = pygame.font.SysFont(None, 25)
+    font = pygame.font.SysFont(None, tam)
+    texto = font.render(texto, True, blanco)
+    gameDisplay.blit(texto, (x, y))
+
+def imprimirTextoTama(texto, x, y, tam):
+    font = pygame.font.SysFont(None, tam)
     texto = font.render(texto, True, blanco)
     gameDisplay.blit(texto, (x, y))
 
@@ -187,8 +196,8 @@ def pasarTurno():
     # Si el valor es 3, lo devuelve al principio
     if turnoActual < 3:
         turnoActual += 1
-    # else:
-    #     turnoActual = 0
+    else:
+        turnoActual = 0
     # Vacía el array del jugador actual
     cartasSeleccionadas = []
 
@@ -309,16 +318,50 @@ def salirJuego():
             quit()
 
 
+def pantallaIntro():
+    global intro
+    while intro:
+        salirJuego()
+
+        gameDisplay.fill(verde)
+        imprimirTexto("Ajilei", (anchoPantalla / 2) - 200, (altoPantalla/2) - 200, 200)
+        boton(
+            "Empezar", 
+            (anchoPantalla / 2) - 150,
+            (altoPantalla / 2) + 20, 
+            300, 60, blanco,
+            gris,
+            introFalse,
+            [],
+            40
+        )
+
+        imprimirTexto("Autores:", anchoPantalla - 200, altoPantalla - 170, 30)
+        imprimirTexto("Antony D'Amico", anchoPantalla - 200, altoPantalla - 140, 30)
+        imprimirTexto("Mariano ", anchoPantalla - 200, altoPantalla - 110, 30)
+
+        
+        pygame.display.update()
+        clock.tick(15)
+
+
+def introFalse():
+    global intro
+    intro = False
+
+
 """
 =============================
 | Ciclo principal del juego  |
 =============================
 """
 def gameLoop():
+    os.environ['SDL_VIDEO_CENTERED'] = '2'
 
     while True:
 
         salirJuego()
+        pantallaIntro()
 
         # Dibuja el fondo
         gameDisplay.fill(verde)
