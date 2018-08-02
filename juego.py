@@ -25,6 +25,7 @@ cartasSeleccionadas = []
 
 
 intro = True
+jugando = True
 
 # El array se llena de 4 jugadores
 for i in range(0, 4):
@@ -352,26 +353,16 @@ def introFalse():
     global intro
     intro = False
 
-
+def finalizarJuego():
+    global jugando
+    jugando = False
     
 
-
-"""
-=============================
-| Ciclo principal del juego  |
-=============================
-"""
-def gameLoop():
-    # os.environ['SDL_VIDEO_CENTERED'] = ''
-
-    while True:
-
+def juegoPrincipal():
+    while jugando:
         salirJuego()
-        pantallaIntro()
-
         # Dibuja el fondo
         gameDisplay.fill(verde)
-
         # Imprime las im'agenes de los jugadores no activos
         imprimirImagen(anchoPantalla*0.95 - anchoCarta, altoPantalla * 0.3, cartaAtras)
         imprimirImagen(anchoPantalla*0.05, altoPantalla * 0.3, cartaAtras)
@@ -410,6 +401,21 @@ def gameLoop():
         # fps del juego, se ponen 15 porque con más los
         # botones de las cartas actuan como si se presionaran 2 veces
         clock.tick(15)
+        
 
 
+"""
+=============================
+| Ciclo principal del juego  |
+=============================
+"""
+def gameLoop():
+
+    while True:
+
+        salirJuego()
+        pantallaIntro()
+        juegoPrincipal()
+
+        
 gameLoop()
