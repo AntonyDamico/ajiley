@@ -28,7 +28,7 @@ class Jugador:
         }
 
         # 5 llamadas al metodo para agarrar 5 cartas
-        for _ in range(0, 5):
+        for _ in range(0, 4):
             self.agarrarCarta(mazo)
 
     

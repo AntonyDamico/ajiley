@@ -9,14 +9,14 @@ from Carta import Carta
 # las demás cartas dan 10 puntos
 valoresCartas = {
     1: 11,
-    6: 6,
+    # 6: 6,
     7: 7
 }
 
 # Objeto comodín, da 7 puntos en todas las pintas
 # Es usado para comparar con la mano del jugador y así saber
 # si posee un comodín
-comodin = Carta(7, "oro")
+# comodin = Carta(7, "oro")
 
 
 def calcularPuntosMano(carta, operacion, puntosJugador):
@@ -42,11 +42,11 @@ def calcularPuntosMano(carta, operacion, puntosJugador):
     # Se obtiene los puntos que da la carta
     puntos = calcularPuntosCarta(carta)
     # Se comprueba si la carta es un comodin
-    if carta == comodin:
+    # if carta == comodin:
         # Se agregan los puntos de comodin a todas las pintas
-        for pinta in puntosJugador:
-            puntosJugador[pinta] += realizarOperacionComodin(operacion)
-        return puntosJugador
+        # for pinta in puntosJugador:
+        #     puntosJugador[pinta] += realizarOperacionComodin(operacion)
+        # return puntosJugador
     # Si no es comodín, se agregan los puntos a la pinta de la carta original
     puntosJugador[carta.getPinta()] += realizarOperacionPuntos(operacion, puntos)
     return puntosJugador
