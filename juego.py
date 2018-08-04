@@ -27,6 +27,7 @@ cartasSeleccionadas = []
 intro = True
 jugando = True
 pantallaPuntos = True
+puedeCambiarCartas = True
 
 # El array se llena de 4 jugadores
 for i in range(0, 4):
@@ -142,7 +143,7 @@ def imprimirTexto(texto, x, y, tam = 25):
     arg2 int y: posición y del texo
     """
     font = pygame.font.SysFont(None, tam)
-    texto = font.render(texto, True, azul)
+    texto = font.render(texto, True, negro)
     gameDisplay.blit(texto, (x, y))
 
 def imprimirImagen(x, y, img):
@@ -209,12 +210,15 @@ def cambiarCartas(jug):
     arg1 obj Jugador jug: Jugador del turno actual
     """
     global cartasSeleccionadas
-    if cartasImagenes:
+    global puedeCambiarCartas
+    if cartasImagenes and puedeCambiarCartas:
         jugadores[jug].cambiarCartas(cartasSeleccionadas, mazo)
         # Borra las imágenes actuales para que se impriman las nuevas
         # en el siguiente ciclo
         cartasSeleccionadas = []
-
+    
+    puedeCambiarCartas = False
+    
 
 def botonCarta(x, y, w, h, carta):
     """
@@ -247,12 +251,15 @@ def botonCarta(x, y, w, h, carta):
         # Imprime la superficie
         gameDisplay.blit(s, (x, y))
         if click[0] == 1:
-            # Agrega o quita la carta que se le hizo click del array
-            # de cartas seleccionadas para cambiar
-            if carta not in cartasSeleccionadas:
-                cartasSeleccionadas.append(carta)
-            else:
-                cartasSeleccionadas.remove(carta)
+            if puedeCambiarCartas:
+                # Agrega o quita la carta que se le hizo click del array
+                # de cartas seleccionadas para cambiar
+                if carta not in cartasSeleccionadas:
+                    cartasSeleccionadas.append(carta)
+                else:
+                    cartasSeleccionadas.remove(carta)
+        elif not puedeCambiarCartas:
+            imprimirTexto("No puede cambiar más cartas", anchoPantalla * 0.3, altoPantalla * 0.6)
     else:
         # Vuelve la superficie invisible cuando no está el cursor encima
         s.set_alpha(0)
