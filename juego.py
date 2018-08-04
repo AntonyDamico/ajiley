@@ -351,7 +351,7 @@ def pantallaIntro():
             (altoPantalla / 2) + 150, 
             300, 60, blanco,
             gris,
-            introFalse,
+            cambiarEstadoIntro,
             [],
             40
         )
@@ -367,13 +367,13 @@ def pantallaIntro():
         clock.tick(15)
 
 
-def introFalse():
+def cambiarEstadoIntro():
     global intro
-    intro = False
+    intro = not intro
 
-def finalizarJuego():
+def cambiarEstadoJugando():
     global jugando
-    jugando = False
+    jugando = not jugando
     
 
 def juegoPrincipal():
@@ -412,7 +412,7 @@ def juegoPrincipal():
             30, 
             blanco, 
             gris, 
-            pasarTurno
+            cambiarEstadoJugando
         )
 
         # Refresca la pantalla
@@ -435,6 +435,7 @@ def gameLoop():
         salirJuego()
         pantallaIntro()
         juegoPrincipal()
+        print('hola')
 
         
 gameLoop()
