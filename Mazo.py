@@ -4,7 +4,7 @@ from Carta import *
 
 class Mazo:
     # attr privado: Valores posibles en una baraja francesa
-    __valores = (1, 2, 3, 4, 5, 6, 7, 10, 11, 12)
+    __valores = (1, 2, 3, 7, 10, 11, 12)
     # attr privado: Pintas posibles en una baraja francesa
     __pintas = ("palos", "espadas", "oro", "copa")
 

@@ -268,10 +268,10 @@ puntos
         array de jugadores 
     """
     # Posiciones de la primera carta a la izquierda
-    x = (anchoPantalla*0.1)
-    y = (altoPantalla*0.7)
+    x = (anchoPantalla * 0.1)
+    y = (altoPantalla * 0.7)
     # Modificador de la posición en x
-    i = 0
+    i = 1
     # Imprime todas las cartas en la mano
     for carta in jugadores[jugadorCont].getMano():
         # Si una de las cartas está en el array de las cartas seleccionadas
@@ -279,26 +279,26 @@ puntos
         if carta in cartasSeleccionadas:
             y = y - 20
 
-        imprimirImagen(x * (i + 1), y, carta.getImg())
+        imprimirImagen(x + (i * anchoCarta), y, carta.getImg())
         # Imprime el bot'on de cadda carta probando si es la primera
         # Si no lo es, se reduce el tamano del bot'on para evitar pulsar
         # el bot'on de dos cartas al mismo tiempo
-        if(i < len(cartasImagenes) - 1):
-            botonCarta(
-                x * (i + 1), 
-                y, 
-                anchoCarta -anchoCarta * 0.2, 
-                altoCarta, 
-                carta
-            )
-        else:
-            botonCarta(
-                x * (i + 1), 
-                y, 
-                anchoCarta, 
-                altoCarta, 
-                carta
-            )
+        # if(i < len(cartasImagenes) - 1):
+        #     botonCarta(
+        #         x * (i + 1), 
+        #         y, 
+        #         anchoCarta -anchoCarta * 0.2, 
+        #         altoCarta, 
+        #         carta
+        #     )
+        # else:
+        botonCarta(
+            x + (i * anchoCarta), 
+            y, 
+            anchoCarta, 
+            altoCarta, 
+            carta
+        )
         # Se aumenta para cambiar la posici'on en x de cada carta
         i += 1
         y = (altoPantalla*0.7)
