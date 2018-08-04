@@ -421,6 +421,14 @@ def juegoPrincipal():
         # botones de las cartas actuan como si se presionaran 2 veces
         clock.tick(30)
         
+def pantallaVictoria():
+    mayorPunto = 0
+    jugadorGanador = 0
+    for i in range(len(jugadores)):
+        if jugadores[i].getMaxPuntos() > mayorPunto:
+            jugadorGanador = i + 1
+            mayorPunto = jugadores[i].getMaxPuntos()
+
 
 
 """
@@ -435,7 +443,7 @@ def gameLoop():
         salirJuego()
         pantallaIntro()
         juegoPrincipal()
-        print('hola')
+        pantallaVictoria()
 
         
 gameLoop()
