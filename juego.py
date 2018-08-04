@@ -35,10 +35,10 @@ for i in range(0, 4):
 Iniciando pygame
 """
 pygame.init()
-
+global gameDisplay
 # Dimensiones del juego
-anchoPantalla = 800
-altoPantalla = 600
+anchoPantalla = 1000
+altoPantalla = 500
 
 # Index del array de jugadores del que tiene el turno actual
 turnoActual = 0
@@ -85,7 +85,9 @@ def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
     arg7 array ac: color del botón cuando tiene el cursor encima
     arg8 function action: función que va a realizar el botón
     arg9 array parameters: parametrós para la función del botón
+    
     """
+
     # Posición del cursor
     mouse = pygame.mouse.get_pos()
     # Dice si el boton ha sido presionado o no
@@ -113,6 +115,7 @@ def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
     gameDisplay.blit(TextSurf, TextRect)
 
 def fondoPantalla(imagen):
+    
     """
     Agrega la imágen de fondo a la ventana
 
@@ -138,14 +141,8 @@ def imprimirTexto(texto, x, y, tam = 25):
     arg2 int y: posición y del texo
     """
     font = pygame.font.SysFont(None, tam)
-    texto = font.render(texto, True, blanco)
+    texto = font.render(texto, True, azul)
     gameDisplay.blit(texto, (x, y))
-
-def imprimirTextoTama(texto, x, y, tam):
-    font = pygame.font.SysFont(None, tam)
-    texto = font.render(texto, True, blanco)
-    gameDisplay.blit(texto, (x, y))
-
 
 def imprimirImagen(x, y, img):
     """
@@ -175,11 +172,11 @@ def mostrarPuntos(puntos):
     for pinta in puntos:
         imprimirTexto(
             pinta + ": " + str(puntos[pinta]), 
-            anchoPantalla*0.65, 
-            (altoPantalla * 0.75) + i
+            anchoPantalla*0.90, 
+            (altoPantalla * 0.70) + i
         )
         # Se aumenta para hacer que cada putno se imprima más abajo
-        i += 20
+        i += 40
 
 
 def text_objects(text, font):
@@ -264,7 +261,7 @@ def botonCarta(x, y, w, h, carta):
 def imprimirCartas(jugadorCont):
     """
     Imprime las cartas del jugador actual
-
+puntos
     Parámetros
     ----------
     arg1 int jugadorCont: Index del jugador actual en el 
@@ -317,29 +314,50 @@ def salirJuego():
             pygame.quit()
             quit()
 
-
+def inicio(ini):
+    imagen_inicio = pygame.image.load(ini)
+    rect = imagen_inicio.get_rect()
+    rect.left, rect.top = [300,200]
+    gameDisplay.fill([255, 255, 255])
+    gameDisplay.blit(imagen_inicio, rect)
+    """
+    iniciar = imagen("imagen/inicio.png",True)      
+    iniciar= pygame.transform.scale(iniciar, (300, 200))
+    Mesa.blit(iniciar,(565,365))
+    pygame.display.flip()
+"""
 def pantallaIntro():
+    #importo la imagen del titulo
+    fondoPantalla("imagenes/global/principal.jpg")
+    imprimirImagen(450, 400, "imagenes/global/inicio.png")
+    
+
+    #inicio("inicio.jpg")
     global intro
+    
     while intro:
         salirJuego()
 
         # Fondo verde
-        gameDisplay.fill(verde)
+        #gameDisplay.fill(verde)
+        
         # Titulo
-        imprimirTexto("Ajilei", (anchoPantalla / 2) - 200, (altoPantalla/2) - 200, 200)
+        #imprimirTexto("Ajilei", (anchoPantalla / 2) - 200, (altoPantalla/2) - 200, 200)
         # Botón para empezar
+        
         boton (
             "Empezar", 
-            (anchoPantalla / 2) - 150,
-            (altoPantalla / 2) + 20, 
+            (anchoPantalla / 2) - 120,
+            (altoPantalla / 2) + 150, 
             300, 60, blanco,
             gris,
             introFalse,
             [],
             40
         )
-
+        
         # Autores
+
         imprimirTexto("Autores:", anchoPantalla - 200, altoPantalla - 170, 30)
         imprimirTexto("Antony D'Amico", anchoPantalla - 200, altoPantalla - 140, 30)
         imprimirTexto("Mariano Landaeta", anchoPantalla - 200, altoPantalla - 110, 30)
@@ -360,13 +378,14 @@ def finalizarJuego():
 
 def juegoPrincipal():
     while jugando:
+        fondoPantalla("imagenes/global/juego_inicial.png")
         salirJuego()
         # Dibuja el fondo
-        gameDisplay.fill(verde)
+        #gameDisplay.fill(verde)
         # Imprime las im'agenes de los jugadores no activos
-        imprimirImagen(anchoPantalla*0.95 - anchoCarta, altoPantalla * 0.3, cartaAtras)
+        imprimirImagen(anchoPantalla*0.80 - anchoCarta, altoPantalla * 0.4, cartaAtras)
         imprimirImagen(anchoPantalla*0.05, altoPantalla * 0.3, cartaAtras)
-        imprimirImagen(anchoPantalla*0.5 - anchoCarta/2, altoPantalla*0.01, cartaAtras)
+        imprimirImagen(anchoPantalla*0.4 - anchoCarta/2, altoPantalla*0.01, cartaAtras)
 
         # Se imprimen las cartas del jugador actual
         imprimirCartas(turnoActual)
@@ -377,7 +396,7 @@ def juegoPrincipal():
         boton(
             "Cambiar Carta", 
             anchoPantalla * 0.80,
-            altoPantalla * 0.75, 
+            altoPantalla * 0.05, 
             150, 30, blanco,
             gris, 
             cambiarCartas, 
@@ -386,9 +405,9 @@ def juegoPrincipal():
 
         # Bot'on para pasar al siguiente turno
         boton(
-            "Pasar Turno", 
+            "Finalizar", 
             anchoPantalla * 0.80,
-            altoPantalla * 0.85, 
+            altoPantalla * 0.17, 
             150, 
             30, 
             blanco, 
@@ -400,7 +419,7 @@ def juegoPrincipal():
         pygame.display.update()
         # fps del juego, se ponen 15 porque con más los
         # botones de las cartas actuan como si se presionaran 2 veces
-        clock.tick(15)
+        clock.tick(30)
         
 
 
