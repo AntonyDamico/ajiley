@@ -475,7 +475,7 @@ def repartirCartas():
     global puedeCambiarCartas
     puedeCambiarCartas = True
     jugadores = []
-    for i in range(0, 4):
+    for _ in range(0, 4):
         jugadores.append(Jugador(mazo))
     
     global cartasImagenes
