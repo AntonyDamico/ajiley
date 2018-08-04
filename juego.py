@@ -26,12 +26,12 @@ cartasSeleccionadas = []
 
 intro = True
 jugando = True
-pantallaPuntos = True
+pantallaPuntos = False
 puedeCambiarCartas = True
 
 # El array se llena de 4 jugadores
-for i in range(0, 4):
-    jugadores.append(Jugador(mazo))
+# for i in range(0, 4):
+#     jugadores.append(Jugador(mazo))
 
 """
 Iniciando pygame
@@ -69,8 +69,8 @@ clock = pygame.time.Clock()
 
 # Llenando array con las imágenes de las cartas del jugador actual
 cartasImagenes = []
-for carta in jugadores[0].getMano():
-    cartasImagenes.append(carta.getImg())
+# for carta in jugadores[0].getMano():
+#     cartasImagenes.append(carta.getImg())
 
 
 def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
@@ -383,9 +383,13 @@ def cambiarEstadoJugando():
     global jugando
     jugando = not jugando
 
-def cambiarEstadoPuntos():
+def cambiarEstadoPantallaPuntos():
     global pantallaPuntos
     pantallaPuntos = not pantallaPuntos
+
+def volverAJugar():
+    cambiarEstadoJugando()
+    cambiarEstadoPantallaPuntos()
     
 
 def juegoPrincipal():
@@ -424,7 +428,7 @@ def juegoPrincipal():
             30, 
             blanco, 
             gris, 
-            cambiarEstadoJugando
+            volverAJugar
         )
 
         # Refresca la pantalla
@@ -448,13 +452,36 @@ def pantallaVictoria():
         imprimirTexto(
             mensaje, 
             anchoPantalla * 0.3, 
-            altoPantalla * 0.5, 
+            altoPantalla * 0.3, 
             60
+        )
+
+        boton(
+            "Nuevo Juego",
+            anchoPantalla * 0.2,
+            altoPantalla*0.7,
+            150,
+            30,
+            blanco,
+            gris,
+            volverAJugar
         )
 
         pygame.display.update()
         clock.tick(15)
 
+def repartirCartas():
+    global jugadores
+    global puedeCambiarCartas
+    puedeCambiarCartas = True
+    jugadores = []
+    for i in range(0, 4):
+        jugadores.append(Jugador(mazo))
+    
+    global cartasImagenes
+    cartasImagenes = []
+    for carta in jugadores[0].getMano():
+        cartasImagenes.append(carta.getImg())
 
 
 """
@@ -468,6 +495,7 @@ def gameLoop():
 
         salirJuego()
         pantallaIntro()
+        repartirCartas()
         juegoPrincipal()
         pantallaVictoria()
 
