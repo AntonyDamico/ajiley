@@ -26,6 +26,7 @@ cartasSeleccionadas = []
 
 intro = True
 jugando = True
+pantallaPuntos = True
 
 # El array se llena de 4 jugadores
 for i in range(0, 4):
@@ -374,6 +375,10 @@ def cambiarEstadoIntro():
 def cambiarEstadoJugando():
     global jugando
     jugando = not jugando
+
+def cambiarEstadoPuntos():
+    global pantallaPuntos
+    pantallaPuntos = not pantallaPuntos
     
 
 def juegoPrincipal():
@@ -422,12 +427,26 @@ def juegoPrincipal():
         clock.tick(30)
         
 def pantallaVictoria():
-    mayorPunto = 0
-    jugadorGanador = 0
-    for i in range(len(jugadores)):
-        if jugadores[i].getMaxPuntos() > mayorPunto:
-            jugadorGanador = i + 1
-            mayorPunto = jugadores[i].getMaxPuntos()
+    while pantallaPuntos:
+        salirJuego()
+        fondoPantalla("imagenes/global/juego_inicial.png")
+        mayorPunto = 0
+        jugadorGanador = 0
+        for i in range(len(jugadores)):
+            if jugadores[i].getMaxPuntos() > mayorPunto:
+                jugadorGanador = i + 1
+                mayorPunto = jugadores[i].getMaxPuntos()
+
+        mensaje = "Ha gando el jugador " + str(jugadorGanador)  
+        imprimirTexto(
+            mensaje, 
+            anchoPantalla * 0.3, 
+            altoPantalla * 0.5, 
+            60
+        )
+
+        pygame.display.update()
+        clock.tick(15)
 
 
 
