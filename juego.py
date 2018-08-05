@@ -8,10 +8,10 @@ python juego.py
 ---------------------
 """
 
-import pygame
+import pygame, sys, os
 from Mazo import Mazo
 from Jugador import Jugador
-
+from pygame import mixer
 """
 Variables Globales
 """
@@ -37,6 +37,7 @@ puedeCambiarCartas = True
 Iniciando pygame
 """
 pygame.init()
+mixer.init()
 global gameDisplay
 # Dimensiones del juego
 anchoPantalla = 1000
@@ -72,7 +73,6 @@ cartasImagenes = []
 # for carta in jugadores[0].getMano():
 #     cartasImagenes.append(carta.getImg())
 
-
 def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
     """
     Función para crear un botón
@@ -94,6 +94,8 @@ def boton(msg, x, y, w, h, ic, ac, action=None, parameters=[], fuenteTam=20):
     mouse = pygame.mouse.get_pos()
     # Dice si el boton ha sido presionado o no
     click = pygame.mouse.get_pressed()
+
+    dibujarCuadrado(x - 3, y - 3, w + 6, h + 6, negro)
      
     if x+w > mouse[0] > x and y + h > mouse[1] > y:
         # Si el cursor está encima del botón, cambia a su color activo (ac)
@@ -219,6 +221,10 @@ def cambiarCartas(jug):
     
     puedeCambiarCartas = False
     
+def dibujarCuadrado(x, y, w, h, color = blanco):
+    s = pygame.Surface((w, h))
+    s.fill(color)
+    gameDisplay.blit(s, (x, y))
 
 def botonCarta(x, y, w, h, carta):
     """
@@ -342,38 +348,37 @@ def pantallaIntro():
 
     #inicio("inicio.jpg")
     global intro
-    
+    playMusic("farm.mp3")
     while intro:
         salirJuego()
-
         # Fondo verde
         #gameDisplay.fill(verde)
-        
+
         # Titulo
         #imprimirTexto("Ajilei", (anchoPantalla / 2) - 200, (altoPantalla/2) - 200, 200)
         # Botón para empezar
-        
+        # for event in pygame.event.get():
+        # dibujarCuadrado((anchoPantalla / 2) - 125,(altoPantalla / 2) + 145, 310, 70, negro)
         boton (
-            "Empezar", 
-            (anchoPantalla / 2) - 120,
-            (altoPantalla / 2) + 150, 
-            300, 60, blanco,
-            gris,
-            cambiarEstadoIntro,
-            [],
-            40
-        )
-        
+                "Empezar", 
+                (anchoPantalla / 2) - 120,
+                (altoPantalla / 2) + 150, 
+                300, 60, blanco,
+                gris,
+                cambiarEstadoIntro,
+                [],
+                40
+            )
+            
         # Autores
-
+        dibujarCuadrado(anchoPantalla - 225, altoPantalla - 185, 210, 110, negro)
+        dibujarCuadrado(anchoPantalla - 220, altoPantalla - 180, 200, 100)
         imprimirTexto("Autores:", anchoPantalla - 200, altoPantalla - 170, 30)
         imprimirTexto("Antony D'Amico", anchoPantalla - 200, altoPantalla - 140, 30)
         imprimirTexto("Mariano Landaeta", anchoPantalla - 200, altoPantalla - 110, 30)
-        
         # refrescando el juego
         pygame.display.update()
         clock.tick(15)
-
 
 def cambiarEstadoIntro():
     global intro
@@ -393,6 +398,7 @@ def volverAJugar():
     
 
 def juegoPrincipal():
+    playMusic("cantina2.mp3")
     while jugando:
         fondoPantalla("imagenes/global/juego_inicial.png")
         salirJuego()
@@ -438,17 +444,27 @@ def juegoPrincipal():
         clock.tick(30)
         
 def pantallaVictoria():
+    playMusic("end.mp3")
     while pantallaPuntos:
         salirJuego()
-        fondoPantalla("imagenes/global/juego_inicial.png")
+        fondoPantalla("imagenes/global/pantalla-resultado.png")
         mayorPunto = 0
         jugadorGanador = 0
+        s = 0.5
         for i in range(len(jugadores)):
             if jugadores[i].getMaxPuntos() > mayorPunto:
                 jugadorGanador = i + 1
                 mayorPunto = jugadores[i].getMaxPuntos()
-
-        mensaje = "Ha gando el jugador " + str(jugadorGanador)  
+            mensaje = "jugador " + str(i+1)  + ":   " + str(jugadores[i].getMaxPuntos())
+            imprimirTexto(
+                mensaje, 
+                anchoPantalla * 0.4, 
+                altoPantalla * (s), 
+                30
+             )
+            s = s + 0.1
+        
+        mensaje = "Ha gando el jugador: " + str(jugadorGanador)
         imprimirTexto(
             mensaje, 
             anchoPantalla * 0.3, 
@@ -466,15 +482,16 @@ def pantallaVictoria():
             gris,
             volverAJugar
         )
-
         pygame.display.update()
         clock.tick(15)
 
 def repartirCartas():
     global jugadores
     global puedeCambiarCartas
+    global cartasSeleccionadas
     puedeCambiarCartas = True
     jugadores = []
+    cartasSeleccionadas = []
     for _ in range(0, 4):
         jugadores.append(Jugador(mazo))
     
@@ -483,6 +500,21 @@ def repartirCartas():
     for carta in jugadores[0].getMano():
         cartasImagenes.append(carta.getImg())
 
+""
+"Si quieres musica aqui esta el codigo"
+
+def soundLoad(name):
+   fullName = os.path.join('sounds', name)
+   sound = pygame.mixer.Sound(fullName)
+   return sound
+
+def playMusic(name):
+    pygame.mixer.stop()
+    fullname = os.path.join('audio', name)
+    print(fullname)
+    mixer.music.load(fullname)
+    mixer.music.play()
+    pygame.mixer.fadeout(1)
 
 """
 =============================
@@ -492,7 +524,6 @@ def repartirCartas():
 def gameLoop():
 
     while True:
-
         salirJuego()
         pantallaIntro()
         repartirCartas()
