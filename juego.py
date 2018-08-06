@@ -474,16 +474,32 @@ def pantallaVictoria():
 
         boton(
             "Nuevo Juego",
-            anchoPantalla * 0.2,
-            altoPantalla*0.7,
+            anchoPantalla * 0.6,
+            altoPantalla*0.5,
             150,
             30,
             blanco,
             gris,
             volverAJugar
         )
+        boton (
+            "Salir del Juego",
+            anchoPantalla * 0.6,
+            altoPantalla * 0.7,
+            150,
+            30,
+            blanco,
+            gris,
+            quitarJuego
+        )
+
         pygame.display.update()
         clock.tick(15)
+
+def quitarJuego():
+    pygame.quit()
+    quit()
+
 
 def repartirCartas():
     global jugadores
