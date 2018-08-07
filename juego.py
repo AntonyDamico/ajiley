@@ -527,7 +527,6 @@ def soundLoad(name):
 def playMusic(name):
     pygame.mixer.stop()
     fullname = os.path.join('audio', name)
-    print(fullname)
     mixer.music.load(fullname)
     mixer.music.play()
     pygame.mixer.fadeout(1)
